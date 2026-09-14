@@ -1373,6 +1373,7 @@
       try {
         window.firebaseBridge.setClinic(currentClinicId);
         const user = await window.firebaseBridge.login(email, password);
+        localStorage.setItem('activeClinic', currentClinicId);
         await enterApp(user);
         toast('Sesión iniciada');
       } catch (err) {
@@ -1389,6 +1390,7 @@
     async function logout() {
       try { if (window.firebaseBridge) await window.firebaseBridge.logout() } catch (e) { console.error(e) }
       historyCache = [];
+      localStorage.removeItem('activeClinic');
       showAccess();
       toast('Sesión cerrada');
     }
@@ -1601,18 +1603,38 @@
       catch (err) { console.error(err); toast('No se pudo actualizar el monto', true) }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('todayLabel').textContent = new Intl.DateTimeFormat('es-MX', { dateStyle: 'long' }).format(new Date());
       document.getElementById('fecha').addEventListener('change', saveLocalDay);
       document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') login() });
       buildWeek();
+
+      // Restaurar automáticamente la sesión y el consultorio usados anteriormente.
+      const savedClinic = localStorage.getItem('activeClinic');
+      if (savedClinic && CLINICS[savedClinic] && window.firebaseBridge) {
+        try {
+          applyClinic(savedClinic);
+          window.firebaseBridge.setClinic(savedClinic);
+          const user = await window.firebaseBridge.restoreSession();
+          if (user) {
+            await enterApp(user);
+          } else {
+            localStorage.removeItem('activeClinic');
+            showAccess();
+          }
+        } catch (err) {
+          console.error('No se pudo restaurar la sesión:', err);
+          localStorage.removeItem('activeClinic');
+          showAccess();
+        }
+      }
     });
   </script>
 
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
     import { getFirestore, collection, getDocs, addDoc, doc, getDoc, setDoc, updateDoc, deleteDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
     const firebaseConfigs = {
@@ -1792,7 +1814,14 @@
       clearClinic,
       login: async (email, password) => {
         requireClinic();
+        await setPersistence(auth, browserLocalPersistence);
         return (await signInWithEmailAndPassword(auth, email, password)).user;
+      },
+      restoreSession: async () => {
+        requireClinic();
+        await setPersistence(auth, browserLocalPersistence);
+        if (typeof auth.authStateReady === 'function') await auth.authStateReady();
+        return auth.currentUser;
       },
       logout: async () => {
         requireClinic();
