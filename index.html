@@ -1,0 +1,1813 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#123f52">
+  <link id="pageFavicon" rel="icon" type="image/png" href="assets/icon.png">
+  <title>Sistema Dental | Registro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #123f52;
+      --navy2: #0b2c3b;
+      --aqua: #2b9caf;
+      --aqua2: #dff4f4;
+      --ink: #17272f;
+      --muted: #687b84;
+      --line: #dce7e9;
+      --bg: #f3f7f7;
+      --white: #fff;
+      --green: #18845f;
+      --yellow: #f4ba41;
+      --red: #d64c4c;
+      --shadow: 0 18px 55px rgba(16, 52, 66, .10);
+      --radius: 18px
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      min-height: 100vh
+    }
+
+    button,
+    input,
+    select {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .topbar {
+      background-color: var(--navy2);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+      padding: 22px max(20px, calc((100vw - 1200px)/2));
+      box-shadow: 0 8px 30px rgba(11, 44, 59, .2);
+      position: relative;
+      overflow: hidden
+    }
+
+    .topbar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 38, 50, .66);
+      z-index: 0;
+      pointer-events: none
+    }
+
+    .topbar:after {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border: 70px solid rgba(255, 255, 255, .035);
+      border-radius: 50%;
+      right: -90px;
+      top: -150px
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      position: relative;
+      z-index: 1
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #fff, #d9f4f4);
+      color: var(--navy);
+      box-shadow: 0 9px 24px rgba(0, 0, 0, .18);
+      font-size: 27px;
+      border: 0
+    }
+
+    .brand h1 {
+      font: 800 clamp(1.15rem, 2vw, 1.55rem)/1.1 Manrope, sans-serif;
+      margin: 0
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      color: #bde3e8;
+      font-size: .86rem
+    }
+
+    .date-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: .88rem;
+      white-space: nowrap
+    }
+
+    .nav {
+      display: flex;
+      gap: 7px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+      overflow: auto;
+      scrollbar-width: none
+    }
+
+    .nav::-webkit-scrollbar {
+      display: none
+    }
+
+    .nav button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background: transparent;
+      color: #c7e5e8;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: .2s
+    }
+
+    .nav button:hover {
+      background: rgba(255, 255, 255, .08);
+      color: #fff
+    }
+
+    .nav button.active {
+      background: #fff;
+      color: var(--navy);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, .12)
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 60px
+    }
+
+    .section {
+      display: none
+    }
+
+    .section.active {
+      display: block;
+      animation: fade .22s ease
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(5px)
+      }
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 19px
+    }
+
+    .page-head h2 {
+      font: 800 clamp(1.45rem, 3vw, 2rem)/1.15 Manrope, sans-serif;
+      margin: 0;
+      color: var(--navy2)
+    }
+
+    .page-head p {
+      margin: 7px 0 0;
+      color: var(--muted)
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid rgba(18, 63, 82, .08);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow)
+    }
+
+    .toolbar,
+    .actions,
+    .form-grid {
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .field {
+      display: grid;
+      gap: 7px
+    }
+
+    .field label {
+      font-size: .79rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .045em
+    }
+
+    .input,
+    input,
+    select {
+      min-height: 43px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      padding: 9px 12px;
+      outline: none;
+      transition: .18s
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--aqua);
+      box-shadow: 0 0 0 3px rgba(43, 156, 175, .12)
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      min-height: 43px;
+      padding: 10px 16px;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: .18s;
+      box-shadow: 0 5px 13px rgba(18, 63, 82, .12)
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: var(--navy2)
+    }
+
+    .btn.secondary {
+      background: #eef4f5;
+      color: var(--navy);
+      box-shadow: none
+    }
+
+    .btn.danger {
+      background: #fff0f0;
+      color: #b83939;
+      box-shadow: none
+    }
+
+    .btn.small {
+      min-height: 35px;
+      padding: 7px 11px;
+      font-size: .84rem
+    }
+
+    .btn.icon {
+      width: 36px;
+      padding: 0;
+      min-height: 36px
+    }
+
+    .btn:disabled {
+      opacity: .48;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow: auto;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 14px
+    }
+
+    .table-wrap table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 750px
+    }
+
+    .table-wrap th {
+      text-align: left;
+      background: #f2f7f7;
+      color: #536971;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-size: .74rem;
+      padding: 12px
+    }
+
+    .table-wrap td {
+      padding: 12px;
+      border-top: 1px solid #e7eef0;
+      vertical-align: top
+    }
+
+    .table-wrap tbody tr {
+      transition: .15s
+    }
+
+    .table-wrap tbody tr:hover {
+      background: #fbfdfd
+    }
+
+    .table-wrap input,
+    .table-wrap select {
+      width: 100%;
+      min-width: 120px
+    }
+
+    .table-wrap .name-cell {
+      position: relative
+    }
+
+    .method-card {
+      background: #fff9e8 !important
+    }
+
+    .method-transfer {
+      background: #eef8ff !important
+    }
+
+    .suggestions {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 58px;
+      z-index: 6;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, .12);
+      overflow: hidden
+    }
+
+    .suggestions div {
+      padding: 9px 12px;
+      cursor: pointer
+    }
+
+    .suggestions div:hover {
+      background: var(--aqua2)
+    }
+
+    .concept-picker {
+      display: flex;
+      gap: 7px
+    }
+
+    .concept-picker select {
+      min-width: 210px
+    }
+
+    .selected-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px
+    }
+
+    .concept-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #cfe3e5;
+      background: #f4fbfb;
+      border-radius: 999px;
+      padding: 4px 6px 4px 10px;
+      font-size: .78rem
+    }
+
+    .concept-pill button {
+      border: 0;
+      background: #dceef0;
+      color: var(--navy);
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      font-weight: 800;
+      padding: 0
+    }
+
+    .empty-state {
+      color: var(--muted);
+      padding: 30px 15px;
+      text-align: center
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 20px
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 17px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .stat:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--aqua)
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 7px;
+      font: 800 1.6rem Manrope, sans-serif;
+      color: var(--navy2)
+    }
+
+    .stat.cash:before {
+      background: var(--green)
+    }
+
+    .stat.card:before {
+      background: var(--yellow)
+    }
+
+    .stat.expense:before {
+      background: var(--red)
+    }
+
+    .subhead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 28px 0 10px
+    }
+
+    .subhead h3 {
+      margin: 0;
+      font: 800 1.05rem Manrope, sans-serif
+    }
+
+    .progress {
+      height: 11px;
+      border-radius: 999px;
+      background: #f4d9d9;
+      overflow: hidden;
+      margin-top: 20px
+    }
+
+    .progress div {
+      height: 100%;
+      background: linear-gradient(90deg, #2aaf7d, #61c99f);
+      width: 0;
+      transition: .5s
+    }
+
+    .progress-label {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-top: 7px;
+      text-align: right
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: 1.45fr .8fr;
+      gap: 20px
+    }
+
+    .catalog-item {
+      display: grid;
+      grid-template-columns: 1fr 145px auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e8eff0
+    }
+
+    .catalog-item:last-child {
+      border: 0
+    }
+
+    .catalog-item input {
+      width: 100%
+    }
+
+    .hint {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.5
+    }
+
+    .notice {
+      padding: 13px 15px;
+      border-radius: 11px;
+      background: var(--aqua2);
+      color: #275b65;
+      font-size: .86rem;
+      margin-bottom: 18px
+    }
+
+    .login-box {
+      max-width: 480px;
+      margin: 40px auto
+    }
+
+    .login-box .panel {
+      padding: 30px
+    }
+
+    .login-box .field {
+      margin-top: 15px
+    }
+
+    .error {
+      color: #b83939;
+      min-height: 20px;
+      font-size: .85rem
+    }
+
+    .history-filters {
+      display: grid;
+      grid-template-columns: minmax(190px, 1fr) repeat(3, auto);
+      gap: 10px;
+      align-items: end
+    }
+
+    .patient-link {
+      border: 0;
+      background: transparent;
+      color: #167287;
+      font-weight: 700;
+      padding: 0
+    }
+
+    .file-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 7px 10px;
+      color: var(--navy);
+      font-weight: 700
+    }
+
+    .expedient-card {
+      padding: 11px 13px;
+      background: #f4f8f8;
+      border-radius: 10px;
+      margin: 7px 0
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 30;
+      background: var(--navy2);
+      color: #fff;
+      padding: 13px 17px;
+      border-radius: 12px;
+      box-shadow: 0 13px 35px rgba(0, 0, 0, .22);
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: .25s
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: none
+    }
+
+    .toast.error {
+      background: #a93232
+    }
+
+    .mobile-label {
+      display: none
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #8a999f;
+      font-size: .77rem;
+      margin-top: 30px
+    }
+
+    /* Acceso por consultorio */
+    .access-screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 18px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(43, 156, 175, .16), transparent 30%),
+        radial-gradient(circle at 85% 0%, rgba(18, 63, 82, .13), transparent 28%), var(--bg)
+    }
+
+    .access-card {
+      width: min(560px, 100%);
+      background: #fff;
+      border: 1px solid rgba(18, 63, 82, .1);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow)
+    }
+
+    .access-brand {
+      text-align: center;
+      margin-bottom: 22px
+    }
+
+    .access-mark {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      overflow: hidden;
+
+      /* quita el fondo azul si quieres que se vea SOLO tu imagen */
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .access-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .access-brand h1 {
+      font: 800 1.55rem/1.1 Manrope, sans-serif;
+      margin: 0;
+      color: var(--navy2)
+    }
+
+    .access-brand p {
+      margin: 8px 0 0;
+      color: var(--muted)
+    }
+
+    .clinic-list {
+      display: grid;
+      gap: 10px
+    }
+
+    .clinic-option {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 15px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--ink);
+      transition: .18s
+    }
+
+    .clinic-option:hover:not(:disabled) {
+      border-color: var(--aqua);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(18, 63, 82, .08)
+    }
+
+    .clinic-option:disabled {
+      opacity: .52;
+      cursor: not-allowed
+    }
+
+    .clinic-option strong {
+      display: block;
+      color: var(--navy2)
+    }
+
+    .clinic-option small {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px
+    }
+
+    .clinic-arrow {
+      font-size: 1.15rem;
+      color: var(--aqua)
+    }
+
+    .access-back {
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-weight: 700;
+      padding: 0 0 14px
+    }
+
+    .access-form .field {
+      margin-top: 14px
+    }
+
+    .access-form .btn {
+      width: 100%;
+      margin-top: 8px
+    }
+
+    .session-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #c7e5e8;
+      font-size: .82rem
+    }
+
+    .session-pill button {
+      border: 1px solid rgba(255, 255, 255, .18);
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-weight: 700
+    }
+
+    .week-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 8px
+    }
+
+    .week-range {
+      font: 800 1.05rem Manrope, sans-serif;
+      color: var(--navy2);
+      margin-top: 4px
+    }
+
+    .week-nav .actions {
+      align-items: center
+    }
+
+    .week-nav .btn {
+      min-height: 38px;
+      padding: 8px 12px
+    }
+
+    @media(max-width:640px) {
+      .access-card {
+        padding: 22px 17px;
+        border-radius: 18px
+      }
+
+      .session-pill span {
+        display: none
+      }
+    }
+
+    @media(max-width:850px) {
+      .stats {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .catalog-grid {
+        grid-template-columns: 1fr
+      }
+
+      .history-filters {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .history-filters .search {
+        grid-column: 1/-1
+      }
+    }
+
+    @media(max-width:640px) {
+      .topbar {
+        padding: 18px 16px 12px
+      }
+
+      .brand p,
+      .date-chip {
+        display: none
+      }
+
+      .logo {
+        width: 45px;
+        height: 45px
+      }
+
+      .nav {
+        margin-top: 17px
+      }
+
+      .nav button {
+        padding: 9px 12px;
+        font-size: .86rem
+      }
+
+      main {
+        padding: 20px 12px 45px
+      }
+
+      .page-head {
+        align-items: flex-start;
+        flex-direction: column
+      }
+
+      .panel {
+        padding: 15px;
+        border-radius: 15px
+      }
+
+      .toolbar>* {
+        width: 100%
+      }
+
+      .toolbar .field {
+        width: 100%
+      }
+
+      .actions .btn {
+        flex: 1
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px
+      }
+
+      .stat {
+        padding: 14px
+      }
+
+      .stat strong {
+        font-size: 1.25rem
+      }
+
+      .table-wrap.mobile-cards {
+        border: 0;
+        overflow: visible
+      }
+
+      .mobile-cards table,
+      .mobile-cards tbody,
+      .mobile-cards tr,
+      .mobile-cards td {
+        display: block;
+        width: 100%;
+        min-width: 0
+      }
+
+      .mobile-cards thead {
+        display: none
+      }
+
+      .mobile-cards tr {
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        padding: 11px;
+        margin-bottom: 12px;
+        background: #fff
+      }
+
+      .mobile-cards td {
+        border: 0;
+        padding: 6px
+      }
+
+      .mobile-cards td:before {
+        content: attr(data-label);
+        display: block;
+        color: var(--muted);
+        font-size: .7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 5px
+      }
+
+      .concept-picker select {
+        min-width: 0
+      }
+
+      .catalog-item {
+        grid-template-columns: 1fr 105px auto
+      }
+
+      .history-filters {
+        grid-template-columns: 1fr
+      }
+
+      .history-filters .search {
+        grid-column: auto
+      }
+
+      .login-box {
+        margin: 10px auto
+      }
+
+      .toast {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        text-align: center
+      }
+    }
+
+    /* Imágenes personalizables */
+    .access-mark,
+    .logo {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .access-mark img,
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .clinic-option-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .clinic-list-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: 10px;
+      flex: 0 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <section id="accessGate" class="access-screen">
+    <div class="access-card">
+      <div id="clinicStep">
+        <div class="access-brand">
+          <div class="access-mark">
+            <img src="assets/icon.png" alt="Sistema Dental">
+          </div>
+          <h1>Sistema Dental</h1>
+          <p>Selecciona el consultorio al que quieres ingresar.</p>
+        </div>
+        <div class="clinic-list">
+          <button class="clinic-option" onclick="selectClinic('dentaloffice')">
+            <span><strong>Dental Office</strong><small>Puerto Vallarta · Firebase conectado</small></span><span
+              class="clinic-arrow">›</span>
+          </button>
+          <button class="clinic-option" onclick="selectClinic('elite')">
+            <span><strong>Élite Dental PV</strong><small>Puerto Vallarta · Firebase conectado</small></span><span
+              class="clinic-arrow">›</span>
+          </button>
+          <button class="clinic-option" disabled><span><strong>Consultorio 3</strong><small>Sin
+                configurar</small></span><span>🔒</span></button>
+          <button class="clinic-option" disabled><span><strong>Consultorio 4</strong><small>Sin
+                configurar</small></span><span>🔒</span></button>
+        </div>
+      </div>
+
+      <div id="loginStep" class="hidden">
+        <button class="access-back" onclick="backToClinics()">← Cambiar consultorio</button>
+        <div class="access-brand">
+          <div class="access-mark">
+            <img id="loginClinicLogo" src="" alt="Logo del consultorio">
+          </div>
+          <h1 id="loginClinicName">Consultorio</h1>
+          <p>Ingresa con tu cuenta autorizada de Firebase.</p>
+        </div>
+        <div class="access-form">
+          <div class="field"><label for="loginEmail">Usuario (correo)</label><input id="loginEmail" type="email"
+              autocomplete="username" placeholder="correo@ejemplo.com"></div>
+          <div class="field"><label for="loginPassword">Contraseña</label><input id="loginPassword" type="password"
+              autocomplete="current-password"></div>
+          <p id="errorLogin" class="error"></p>
+          <button id="loginButton" class="btn" onclick="login()">Iniciar sesión</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="appShell" class="hidden">
+    <header class="topbar">
+      <div class="brand-row">
+        <div class="brand"><button class="logo" title="Inicio" onclick="showSection('dia')">
+            <img id="headerClinicLogo" src="" alt="Logo del consultorio">
+          </button>
+          <div>
+            <h1 id="headerClinicName">Sistema Dental</h1>
+            <p>Control de ingresos y movimientos</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="date-chip"><span>📅</span><span id="todayLabel"></span></div>
+          <div class="session-pill"><span id="sessionUser"></span><button onclick="logout()">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Navegación principal">
+        <button data-section="dia" class="active" onclick="showSection('dia')">Registro diario</button>
+        <button data-section="semana" onclick="showSection('semana')">Resumen semanal</button>
+        <button data-section="conceptos" onclick="showSection('conceptos')">Conceptos y precios</button>
+        <button data-section="admin" id="btnAdmin" onclick="showSection('admin')">Historial</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="dia" class="section active">
+        <div class="page-head">
+          <div>
+            <h2>Registro diario</h2>
+            <p>Captura los pagos y gastos de la jornada.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="toolbar">
+            <div class="field"><label for="fecha">Fecha de registro</label><input type="date" id="fecha"></div><button
+              class="btn secondary" onclick="addPatientRow()">＋ Agregar paciente</button>
+          </div>
+          <div class="table-wrap mobile-cards">
+            <table id="tablaDia">
+              <thead>
+                <tr>
+                  <th>Paciente</th>
+                  <th>Conceptos</th>
+                  <th>Monto</th>
+                  <th>Método</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="subhead">
+            <h3>Gastos del día</h3><button class="btn secondary small" onclick="addExpenseRow()">＋ Agregar
+              gasto</button>
+          </div>
+          <div class="table-wrap mobile-cards">
+            <table id="tablaGastos">
+              <thead>
+                <tr>
+                  <th>Monto</th>
+                  <th>Motivo</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="actions"><button class="btn" onclick="calculateDay()">Calcular totales</button><button
+              class="btn secondary" onclick="saveDay()">Guardar en Firebase</button><button class="btn danger"
+              onclick="resetDay()">Reiniciar día</button></div>
+          <div class="stats">
+            <div class="stat"><span class="label">Ganancias totales</span><strong id="total">$0</strong></div>
+            <div class="stat cash"><span class="label">Efectivo total</span><strong id="efectivo">$0</strong></div>
+            <div class="stat card"><span class="label">Tarjeta / transferencia</span><strong id="tarjeta">$0</strong>
+            </div>
+            <div class="stat expense"><span class="label">Gastos</span><strong id="gastoDia">$0</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="semana" class="section">
+        <div class="page-head">
+          <div>
+            <h2>Resumen semanal</h2>
+            <p>Los totales se cargan automáticamente desde Firebase, sin archivos de texto.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="week-nav">
+            <div>
+              <div class="hint">Semana seleccionada</div>
+              <div class="week-range" id="weekRange">—</div>
+            </div>
+            <div class="actions"><button class="btn secondary small" onclick="changeWeek(-1)">← Semana
+                anterior</button><button class="btn secondary small" onclick="goCurrentWeek()">Esta
+                semana</button><button class="btn secondary small" onclick="changeWeek(1)">Semana siguiente →</button>
+            </div>
+          </div>
+          <div class="notice" id="weekStatus">Cargando cierres de la semana…</div>
+          <div class="table-wrap mobile-cards">
+            <table>
+              <thead>
+                <tr>
+                  <th>Día</th>
+                  <th>Ganancias totales</th>
+                  <th>Efectivo total</th>
+                  <th>Tarjeta / transf.</th>
+                  <th>Gastos</th>
+                </tr>
+              </thead>
+              <tbody id="tablaSemana"></tbody>
+            </table>
+          </div>
+          <div class="stats">
+            <div class="stat"><span class="label">Ganancias totales</span><strong id="tSemana">$0</strong></div>
+            <div class="stat cash"><span class="label">Efectivo total</span><strong id="eSemana">$0</strong></div>
+            <div class="stat card"><span class="label">Tarjeta / transferencia</span><strong id="taSemana">$0</strong>
+            </div>
+            <div class="stat expense"><span class="label">Gastos</span><strong id="gSemana">$0</strong></div>
+          </div>
+          <div class="progress">
+            <div id="barraGanancia"></div>
+          </div>
+          <div class="progress-label" id="profitLabel">Margen después de gastos: 0%</div>
+        </div>
+      </section>
+
+      <section id="conceptos" class="section">
+        <div class="page-head">
+          <div>
+            <h2>Conceptos y precios</h2>
+            <p>Administra las opciones disponibles al registrar un paciente.</p>
+          </div>
+        </div>
+        <div class="catalog-grid">
+          <div class="panel">
+            <div class="notice">Los cambios se guardan automáticamente en este dispositivo y se reflejan en todas las
+              filas nuevas y abiertas.</div>
+            <div id="catalogList"></div>
+          </div>
+          <div class="panel">
+            <h3 style="margin-top:0">Añadir concepto</h3>
+            <div class="field"><label for="newConceptName">Nombre</label><input id="newConceptName"
+                placeholder="Ej. Corona de zirconia"></div>
+            <div class="field" style="margin-top:12px"><label for="newConceptPrice">Precio</label><input
+                id="newConceptPrice" type="number" min="0" step="1" placeholder="0"></div><button class="btn"
+              style="width:100%;margin-top:16px" onclick="addCatalogConcept()">＋ Añadir al catálogo</button>
+            <p class="hint">Puedes editar cualquier nombre o precio desde la lista. Los conceptos ya registrados en un
+              paciente conservarán el precio con el que fueron agregados.</p><button class="btn danger small"
+              onclick="restoreDefaultCatalog()">Restaurar catálogo original</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="admin" class="section">
+        <div class="page-head">
+          <div>
+            <h2>Historial de pacientes</h2>
+            <p>Busca registros y consulta el expediente de cada paciente.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="history-filters">
+            <div class="field search"><label>Buscar paciente</label><input id="busqueda"
+                placeholder="Nombre del paciente" oninput="renderHistory()"></div>
+            <div class="field"><label>Desde</label><input type="date" id="fechaInicio" onchange="renderHistory()"></div>
+            <div class="field"><label>Hasta</label><input type="date" id="fechaFin" onchange="renderHistory()"></div>
+            <div class="field"><label>Orden</label><select id="orden" onchange="renderHistory()">
+                <option value="fecha">Más reciente</option>
+                <option value="az">Nombre A–Z</option>
+              </select></div>
+          </div>
+          <div class="table-wrap mobile-cards">
+            <table>
+              <thead>
+                <tr>
+                  <th>Paciente</th>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Método</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaHistorial"></tbody>
+            </table>
+          </div>
+          <div class="subhead">
+            <h3>Expediente</h3>
+          </div>
+          <div id="expediente" class="hint">Selecciona el nombre de un paciente para ver sus movimientos.</div>
+        </div>
+      </section>
+      <p class="footer-note" id="footerClinicText">Sistema Dental · Pacientes, cierres diarios y resumen semanal
+        sincronizados con Firebase.</p>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const CLINICS = {
+      dentaloffice: {
+        name: 'Dental Office',
+        headerName: 'Dental Office',
+        logo: 'assets/dental-office-logo.png',
+        banner: 'assets/dental-office-banner.png',
+        keys: { catalog: 'dentaloffice_catalog_v2', day: 'dentaloffice_registroDia' }
+      },
+      elite: {
+        name: 'Élite Dental PV',
+        headerName: 'Élite Dental',
+        logo: 'assets/elite-dental-logo.png',
+        banner: 'assets/elite-dental-banner.png',
+        keys: { catalog: 'elite_catalog_v2', day: 'registroDia' }
+      }
+    };
+    let currentClinicId = null;
+    const KEYS = { catalog: '', day: '' };
+    const DEFAULT_CATALOG = [['Valoración', 500], ['Colocación de brackets', 1800], ['Cita mensual', 500], ['Bracket despegado', 150], ['Tope de resina', 150], ['Resina', 800], ['Retiro de brackets', 800], ['Limpieza', 800], ['Retenedor removible', 1000], ['Retenedor fijo', 1500], ['Retorno', 1200], ['Extracción', 2000], ['Blanqueamiento', 3000]].map(([name, price], i) => ({ id: 'c' + i, name, price }));
+    const money = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+    const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+    const getJSON = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch { return fallback } };
+    const getCatalog = () => getJSON(KEYS.catalog, structuredClone(DEFAULT_CATALOG));
+    let historyCache = [];
+    let weekAnchor = getMonday(new Date());
+    const getHistory = () => historyCache;
+    const toast = (message, isError = false) => { const el = document.getElementById('toast'); el.textContent = message; el.className = 'toast show' + (isError ? ' error' : ''); clearTimeout(toast.timer); toast.timer = setTimeout(() => el.className = 'toast', 2800) };
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(x => x.classList.toggle('active', x.id === id));
+      document.querySelectorAll('.nav button').forEach(x => x.classList.toggle('active', x.dataset.section === id));
+      if (id === 'conceptos') renderCatalog();
+      if (id === 'admin') renderHistory();
+      if (id === 'semana') loadWeekSummary();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function applyClinic(id) {
+      const clinic = CLINICS[id];
+      if (!clinic) return false;
+      currentClinicId = id;
+      KEYS.catalog = clinic.keys.catalog;
+      KEYS.day = clinic.keys.day;
+      document.getElementById('loginClinicName').textContent = clinic.name;
+      document.getElementById('headerClinicName').textContent = clinic.headerName;
+      const loginLogo = document.getElementById('loginClinicLogo');
+      const headerLogo = document.getElementById('headerClinicLogo');
+      const topbar = document.querySelector('.topbar');
+      if (loginLogo) loginLogo.src = clinic.logo;
+      if (headerLogo) headerLogo.src = clinic.logo;
+      if (topbar) topbar.style.backgroundImage = `url("${clinic.banner}")`;
+      document.getElementById('footerClinicText').textContent = `${clinic.name} · Pacientes, cierres diarios y resumen semanal sincronizados con Firebase.`;
+      document.title = `${clinic.name} | Registro`;
+      if (window.firebaseBridge) window.firebaseBridge.setClinic(id);
+      return true;
+    }
+
+    function selectClinic(id) {
+      if (!applyClinic(id)) return;
+      document.getElementById('clinicStep').classList.add('hidden');
+      document.getElementById('loginStep').classList.remove('hidden');
+      document.getElementById('errorLogin').textContent = '';
+      document.getElementById('loginPassword').value = '';
+      setTimeout(() => document.getElementById('loginEmail').focus(), 50);
+    }
+    function backToClinics() {
+      document.getElementById('loginStep').classList.add('hidden');
+      document.getElementById('clinicStep').classList.remove('hidden');
+      document.getElementById('errorLogin').textContent = '';
+      currentClinicId = null;
+      document.title = 'Sistema Dental | Registro';
+      if (window.firebaseBridge) window.firebaseBridge.clearClinic();
+    }
+    function showAccess() {
+      document.getElementById('appShell').classList.add('hidden');
+      document.getElementById('accessGate').classList.remove('hidden');
+      document.getElementById('loginStep').classList.add('hidden');
+      document.getElementById('clinicStep').classList.remove('hidden');
+      document.getElementById('loginPassword').value = '';
+      document.getElementById('loginEmail').value = '';
+      currentClinicId = null;
+      document.title = 'Sistema Dental | Registro';
+      if (window.firebaseBridge) window.firebaseBridge.clearClinic();
+    }
+    async function enterApp(user) {
+      if (!currentClinicId || !applyClinic(currentClinicId)) return;
+      if (!localStorage.getItem(KEYS.catalog)) localStorage.setItem(KEYS.catalog, JSON.stringify(DEFAULT_CATALOG));
+      historyCache = [];
+      weekAnchor = getMonday(new Date());
+      document.querySelector('#tablaDia tbody').innerHTML = '';
+      document.querySelector('#tablaGastos tbody').innerHTML = '';
+      document.getElementById('busqueda').value = '';
+      document.getElementById('fechaInicio').value = '';
+      document.getElementById('fechaFin').value = '';
+      document.getElementById('orden').value = 'fecha';
+      document.getElementById('expediente').innerHTML = 'Selecciona el nombre de un paciente para ver sus movimientos.';
+      loadLocalDay();
+      document.getElementById('accessGate').classList.add('hidden');
+      document.getElementById('appShell').classList.remove('hidden');
+      document.getElementById('sessionUser').textContent = user?.email || 'Sesión activa';
+      showSection('dia');
+      await loadFirestoreHistory();
+    }
+
+    async function login() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const error = document.getElementById('errorLogin');
+      const btn = document.getElementById('loginButton');
+      error.textContent = '';
+      if (!email || !password) { error.textContent = 'Escribe tu correo y contraseña.'; return }
+      if (!currentClinicId) { error.textContent = 'Primero selecciona un consultorio.'; return }
+      if (!window.firebaseBridge) { error.textContent = 'Firebase todavía está cargando. Intenta de nuevo en un momento.'; return }
+      btn.disabled = true; btn.textContent = 'Ingresando…';
+      try {
+        window.firebaseBridge.setClinic(currentClinicId);
+        const user = await window.firebaseBridge.login(email, password);
+        await enterApp(user);
+        toast('Sesión iniciada');
+      } catch (err) {
+        console.error(err);
+        const code = String(err?.code || '');
+        error.textContent = code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')
+          ? 'Correo o contraseña incorrectos.'
+          : 'No se pudo iniciar sesión. Revisa tu conexión e inténtalo otra vez.';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Iniciar sesión';
+      }
+    }
+
+    async function logout() {
+      try { if (window.firebaseBridge) await window.firebaseBridge.logout() } catch (e) { console.error(e) }
+      historyCache = [];
+      showAccess();
+      toast('Sesión cerrada');
+    }
+
+    async function loadFirestoreHistory() {
+      if (!window.firebaseBridge) return;
+      try {
+        historyCache = await window.firebaseBridge.loadHistory();
+        if (document.getElementById('admin').classList.contains('active')) renderHistory();
+      } catch (err) {
+        console.error(err);
+        toast('No se pudo cargar el historial de Firebase', true);
+      }
+    }
+
+    function catalogOptions(selected = '') { return getCatalog().map(c => `<option value="${esc(c.id)}" ${c.id === selected ? 'selected' : ''}>${esc(c.name)} · ${money.format(c.price)}</option>`).join('') }
+    function refreshConceptSelects() { document.querySelectorAll('.concepto').forEach(s => { const val = s.value; s.innerHTML = catalogOptions(val) }) }
+    function addPatientRow(data = {}) {
+      const tbody = document.querySelector('#tablaDia tbody'), row = tbody.insertRow();
+      row._concepts = data.concepts || {};
+      row.dataset.time = data.timestamp || Date.now();
+      row.innerHTML = `<td data-label="Paciente" class="name-cell"><input class="nombreInput" placeholder="Nombre completo" value="${esc(data.name || '')}" oninput="suggestions(this)"><div class="suggestions"></div></td><td data-label="Conceptos"><div class="concept-picker"><select class="concepto">${catalogOptions()}</select><button class="btn icon small add-concept" type="button" title="Agregar concepto">＋</button></div><div class="selected-list"></div></td><td data-label="Monto"><input type="number" class="monto" min="0" value="${esc(data.amount || '')}" placeholder="0"></td><td data-label="Método"><select class="metodo"><option ${data.method === 'Efectivo' ? 'selected' : ''}>Efectivo</option><option ${data.method === 'Tarjeta' ? 'selected' : ''}>Tarjeta</option><option ${data.method === 'Transferencia' ? 'selected' : ''}>Transferencia</option></select></td><td data-label="Acciones"><button class="btn danger icon small remove-row" title="Eliminar fila">×</button></td>`;
+      row.querySelector('.add-concept').onclick = () => { const id = row.querySelector('.concepto').value, item = getCatalog().find(c => c.id === id); if (!item) return; if (!row._concepts[id]) row._concepts[id] = { name: item.name, price: Number(item.price), qty: 0 }; row._concepts[id].qty++; syncAmount(row); renderSelected(row); saveLocalDay() };
+      row.querySelector('.remove-row').onclick = () => { if (confirm('¿Eliminar este paciente del registro?')) { row.remove(); saveLocalDay(); calculateDay() } };
+      row.querySelector('.metodo').onchange = e => { styleMethod(row, e.target.value); saveLocalDay() };
+      styleMethod(row, data.method || 'Efectivo');
+      row.querySelectorAll('input').forEach(el => el.addEventListener('input', () => saveLocalDay()));
+      renderSelected(row);
+      return row;
+    }
+    function renderSelected(row) {
+      const list = row.querySelector('.selected-list'); list.innerHTML = '';
+      Object.entries(row._concepts).forEach(([id, c]) => {
+        const pill = document.createElement('div'); pill.className = 'concept-pill';
+        pill.innerHTML = `<span>${esc(c.name)} × ${c.qty}</span><button title="Quitar uno">−</button><button title="Agregar uno">＋</button>`;
+        pill.children[1].onclick = () => { c.qty--; if (c.qty <= 0) delete row._concepts[id]; syncAmount(row); renderSelected(row); saveLocalDay() };
+        pill.children[2].onclick = () => { c.qty++; syncAmount(row); renderSelected(row); saveLocalDay() };
+        list.appendChild(pill);
+      })
+    }
+    function syncAmount(row) { row.querySelector('.monto').value = Object.values(row._concepts).reduce((n, c) => n + Number(c.price) * Number(c.qty), 0); calculateDay(); saveLocalDay() }
+    function styleMethod(row, value) { row.classList.toggle('method-card', value === 'Tarjeta'); row.classList.toggle('method-transfer', value === 'Transferencia') }
+    function addExpenseRow(data = {}) {
+      const row = document.querySelector('#tablaGastos tbody').insertRow();
+      row.innerHTML = `<td data-label="Monto"><input type="number" min="0" class="expense-amount" value="${esc(data.amount || '')}" placeholder="0"></td><td data-label="Motivo"><select class="expense-reason">${['Laboratorio', 'Depósito', 'RPBI', 'Renta', 'Material', 'Otro'].map(x => `<option ${data.reason === x ? 'selected' : ''}>${x}</option>`).join('')}</select></td><td data-label="Acciones"><button class="btn danger icon small">×</button></td>`;
+      row.querySelector('button').onclick = () => { row.remove(); saveLocalDay(); calculateDay() };
+      row.querySelectorAll('input,select').forEach(x => x.addEventListener('input', () => { saveLocalDay(); calculateDay() }));
+      return row;
+    }
+    function calculateDay() {
+      let total = 0, cash = 0, electronic = 0, expenses = 0;
+      document.querySelectorAll('#tablaDia tbody tr').forEach(r => { const amount = Number(r.querySelector('.monto').value) || 0; total += amount; r.querySelector('.metodo').value === 'Efectivo' ? cash += amount : electronic += amount });
+      document.querySelectorAll('.expense-amount').forEach(x => expenses += Number(x.value) || 0);
+      cash -= expenses;
+      document.getElementById('total').textContent = money.format(total);
+      document.getElementById('efectivo').textContent = money.format(cash);
+      document.getElementById('tarjeta').textContent = money.format(electronic);
+      document.getElementById('gastoDia').textContent = money.format(expenses);
+      return { total, cash, electronic, expenses };
+    }
+    function saveLocalDay() {
+      const patients = [...document.querySelectorAll('#tablaDia tbody tr')].map(r => ({ name: r.querySelector('.nombreInput').value, concepts: r._concepts, amount: r.querySelector('.monto').value, method: r.querySelector('.metodo').value, timestamp: r.dataset.time }));
+      const expenses = [...document.querySelectorAll('#tablaGastos tbody tr')].map(r => ({ amount: r.querySelector('.expense-amount').value, reason: r.querySelector('.expense-reason').value }));
+      localStorage.setItem(KEYS.day, JSON.stringify({ date: document.getElementById('fecha').value, patients, expenses }));
+    }
+    function loadLocalDay() {
+      const saved = getJSON(KEYS.day, {});
+      document.getElementById('fecha').value = saved.date || new Date().toISOString().slice(0, 10);
+      (saved.patients?.length ? saved.patients : [{}]).forEach(addPatientRow);
+      (saved.expenses?.length ? saved.expenses : [{}]).forEach(addExpenseRow);
+      calculateDay();
+    }
+    function resetDay() {
+      if (!confirm('¿Seguro que quieres borrar el registro del día?')) return;
+      localStorage.removeItem(KEYS.day);
+      document.querySelector('#tablaDia tbody').innerHTML = '';
+      document.querySelector('#tablaGastos tbody').innerHTML = '';
+      addPatientRow(); addExpenseRow(); calculateDay();
+      toast('El registro del día se reinició');
+    }
+
+    async function saveDay() {
+      const date = document.getElementById('fecha').value;
+      if (!date) { toast('Selecciona una fecha antes de guardar', true); return }
+      if (!window.firebaseBridge) { toast('Firebase todavía no está disponible', true); return }
+      const summary = calculateDay();
+      const records = [];
+      let hasPatient = false;
+      document.querySelectorAll('#tablaDia tbody tr').forEach(r => {
+        const name = r.querySelector('.nombreInput').value.trim();
+        const amount = Number(r.querySelector('.monto').value) || 0;
+        const method = r.querySelector('.metodo').value;
+        const concepts = Object.values(r._concepts).map(c => `${c.name} x${c.qty}`).join(', ') || 'Sin concepto';
+        if (!name) return;
+        hasPatient = true;
+        const duplicated = historyCache.some(p => p.nombre.toLowerCase() === name.toLowerCase() && p.fecha === date && Number(p.monto) === amount && p.metodo === method && String(p.conceptos || '') === concepts);
+        if (!duplicated) records.push({ name, amount, method, concepts });
+      });
+      if (!hasPatient && summary.expenses <= 0) { toast('No hay pacientes ni gastos para guardar en este día', true); return }
+      try {
+        if (records.length) await window.firebaseBridge.saveRecords(date, records);
+        await window.firebaseBridge.saveDailyClosure(date, summary.expenses);
+        await loadFirestoreHistory();
+        if (document.getElementById('semana').classList.contains('active')) await loadWeekSummary();
+        toast(records.length ? 'Registro y cierre diario guardados en Firebase' : 'Cierre diario actualizado en Firebase');
+      } catch (err) {
+        console.error(err);
+        toast('No se pudo completar el guardado en Firebase. Revisa la conexión y las reglas de Firestore.', true);
+      }
+    }
+
+    function suggestions(input) {
+      const box = input.parentElement.querySelector('.suggestions'), q = input.value.trim().toLowerCase();
+      box.innerHTML = ''; if (!q) return;
+      [...new Set(getHistory().map(p => p.nombre))].filter(n => n.toLowerCase().startsWith(q)).slice(0, 6).forEach(name => {
+        const d = document.createElement('div'); d.textContent = name; d.onclick = () => { input.value = name; box.innerHTML = ''; saveLocalDay() }; box.appendChild(d)
+      })
+    }
+
+    function renderCatalog() {
+      const list = document.getElementById('catalogList'), catalog = getCatalog(); list.innerHTML = '';
+      catalog.forEach(item => {
+        const row = document.createElement('div'); row.className = 'catalog-item';
+        row.innerHTML = `<input aria-label="Nombre del concepto" value="${esc(item.name)}"><input aria-label="Precio del concepto" type="number" min="0" value="${item.price}"><button class="btn danger icon small" title="Eliminar concepto">×</button>`;
+        const save = () => { item.name = row.children[0].value.trim() || 'Sin nombre'; item.price = Math.max(0, Number(row.children[1].value) || 0); localStorage.setItem(KEYS.catalog, JSON.stringify(catalog)); refreshConceptSelects(); toast('Catálogo actualizado') };
+        row.children[0].onchange = save; row.children[1].onchange = save;
+        row.children[2].onclick = () => { if (!confirm(`¿Eliminar “${item.name}” del catálogo?`)) return; localStorage.setItem(KEYS.catalog, JSON.stringify(catalog.filter(c => c.id !== item.id))); renderCatalog(); refreshConceptSelects() };
+        list.appendChild(row)
+      });
+      if (!catalog.length) list.innerHTML = '<div class="empty-state">Aún no hay conceptos. Añade el primero desde el formulario.</div>';
+    }
+    function addCatalogConcept() {
+      const name = document.getElementById('newConceptName'), price = document.getElementById('newConceptPrice'), clean = name.value.trim();
+      if (!clean) { toast('Escribe el nombre del concepto', true); name.focus(); return }
+      const catalog = getCatalog(); catalog.push({ id: 'c' + Date.now().toString(36), name: clean, price: Math.max(0, Number(price.value) || 0) });
+      localStorage.setItem(KEYS.catalog, JSON.stringify(catalog)); name.value = ''; price.value = ''; renderCatalog(); refreshConceptSelects(); toast('Concepto añadido');
+    }
+    function restoreDefaultCatalog() { if (!confirm('¿Restaurar la lista original de conceptos y precios?')) return; localStorage.setItem(KEYS.catalog, JSON.stringify(DEFAULT_CATALOG)); renderCatalog(); refreshConceptSelects(); toast('Catálogo original restaurado') }
+
+    function getMonday(value) {
+      const d = new Date(value); d.setHours(12, 0, 0, 0);
+      const day = d.getDay(), diff = day === 0 ? -6 : 1 - day;
+      d.setDate(d.getDate() + diff); return d;
+    }
+    function isoDate(d) { const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0'); return `${y}-${m}-${day}` }
+    function weekDates() { return Array.from({ length: 6 }, (_, i) => { const d = new Date(weekAnchor); d.setDate(d.getDate() + i); return d }) }
+    function formatShortDate(d) { return new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', year: 'numeric' }).format(d) }
+    function buildWeek() {
+      const names = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'], dates = weekDates(), body = document.getElementById('tablaSemana');
+      document.getElementById('weekRange').textContent = `${formatShortDate(dates[0])} — ${formatShortDate(dates[5])}`;
+      body.innerHTML = dates.map((d, i) => `<tr data-date="${isoDate(d)}"><td data-label="Día"><strong>${names[i]}</strong><br><span class="hint">${formatShortDate(d)}</span></td><td data-label="Ganancias totales" class="w-total">$0</td><td data-label="Efectivo total" class="w-cash">$0</td><td data-label="Tarjeta / transferencia" class="w-card">$0</td><td data-label="Gastos" class="w-expense">$0</td></tr>`).join('');
+    }
+    async function loadWeekSummary() {
+      buildWeek();
+      const status = document.getElementById('weekStatus');
+      status.textContent = 'Actualizando resumen desde Firebase…';
+      if (!window.firebaseBridge) { status.textContent = 'Firebase todavía está cargando.'; return }
+      try {
+        const dates = weekDates().map(isoDate), closures = await window.firebaseBridge.loadWeek(dates);
+        let saved = 0;
+        document.querySelectorAll('#tablaSemana tr').forEach(row => {
+          const data = closures[row.dataset.date]; if (!data) return;
+          saved++;
+          row.dataset.total = Number(data.ganancias_totales) || 0;
+          row.dataset.cash = Number(data.efectivo_total) || 0;
+          row.dataset.card = Number(data.tarjeta_transferencia) || 0;
+          row.dataset.expense = Number(data.gastos) || 0;
+          row.querySelector('.w-total').textContent = money.format(row.dataset.total);
+          row.querySelector('.w-cash').textContent = money.format(row.dataset.cash);
+          row.querySelector('.w-card').textContent = money.format(row.dataset.card);
+          row.querySelector('.w-expense').textContent = money.format(row.dataset.expense);
+        });
+        calculateWeek();
+        status.textContent = saved ? `Se cargaron ${saved} cierre${saved === 1 ? '' : 's'} diario${saved === 1 ? '' : 's'} de Firebase.` : 'Todavía no hay cierres guardados para esta semana.';
+      } catch (err) { console.error(err); status.textContent = 'No se pudo cargar el resumen semanal.'; toast('No se pudo cargar el resumen semanal', true) }
+    }
+    function changeWeek(offset) { weekAnchor = new Date(weekAnchor); weekAnchor.setDate(weekAnchor.getDate() + offset * 7); loadWeekSummary() }
+    function goCurrentWeek() { weekAnchor = getMonday(new Date()); loadWeekSummary() }
+    function calculateWeek() {
+      let t = 0, e = 0, c = 0, g = 0;
+      document.querySelectorAll('#tablaSemana tr').forEach(r => { t += Number(r.dataset.total) || 0; e += Number(r.dataset.cash) || 0; c += Number(r.dataset.card) || 0; g += Number(r.dataset.expense) || 0 });
+      document.getElementById('tSemana').textContent = money.format(t); document.getElementById('eSemana').textContent = money.format(e);
+      document.getElementById('taSemana').textContent = money.format(c); document.getElementById('gSemana').textContent = money.format(g);
+      const pct = t ? Math.max(0, Math.min(100, (t - g) / t * 100)) : 0;
+      document.getElementById('barraGanancia').style.width = pct + '%'; document.getElementById('profitLabel').textContent = `Margen después de gastos: ${Math.round(pct)}%`;
+    }
+
+    function renderHistory() {
+      const tbody = document.getElementById('tablaHistorial');
+      let rows = getHistory(), q = document.getElementById('busqueda').value.toLowerCase(), from = document.getElementById('fechaInicio').value, to = document.getElementById('fechaFin').value;
+      rows = rows.filter(p => p.nombre.toLowerCase().includes(q) && (!from || p.fecha >= from) && (!to || p.fecha <= to));
+      rows.sort(document.getElementById('orden').value === 'az' ? (a, b) => a.nombre.localeCompare(b.nombre) : (a, b) => b.fecha.localeCompare(a.fecha));
+      tbody.innerHTML = rows.map(p => `<tr><td data-label="Paciente"><button class="patient-link" onclick='showRecord(${JSON.stringify(p.nombre)})'>${esc(p.nombre)}</button></td><td data-label="Fecha">${esc(p.fecha)}</td><td data-label="Monto">${money.format(p.monto)}</td><td data-label="Método">${esc(p.metodo)}</td><td data-label="Acciones"><button class="btn secondary icon small" onclick='editHistory(${JSON.stringify(p.id)})'>✎</button> <button class="btn danger icon small" onclick='deleteHistory(${JSON.stringify(p.id)})'>×</button></td></tr>`).join('') || '<tr><td colspan="5" class="empty-state">No hay registros que coincidan.</td></tr>';
+    }
+    function showRecord(name) {
+      const items = getHistory().filter(p => p.nombre === name), box = document.getElementById('expediente');
+      box.innerHTML = `<h4>${esc(name)}</h4>` + items.map(x => `<div class="expedient-card"><strong>${esc(x.fecha)}</strong> · ${money.format(x.monto)} · ${esc(x.metodo)}${x.conceptos ? `<br><span class="hint">${esc(x.conceptos)}</span>` : ''}</div>`).join('');
+    }
+    async function deleteHistory(id) {
+      if (!confirm('¿Eliminar este registro del historial?')) return;
+      const item = getHistory().find(p => p.id === id);
+      try { await window.firebaseBridge.deleteVisit(id); if (item?.fecha) await window.firebaseBridge.recalculateClosure(item.fecha); await loadFirestoreHistory(); renderHistory(); if (document.getElementById('semana').classList.contains('active')) await loadWeekSummary(); toast('Registro eliminado') }
+      catch (err) { console.error(err); toast('No se pudo eliminar el registro', true) }
+    }
+    async function editHistory(id) {
+      const item = getHistory().find(p => p.id === id), value = prompt('Nuevo monto:', item?.monto);
+      if (value === null || !item) return;
+      const amount = Math.max(0, Number(value) || item.monto);
+      try { await window.firebaseBridge.updateVisit(id, { monto: amount }); if (item.fecha) await window.firebaseBridge.recalculateClosure(item.fecha); await loadFirestoreHistory(); renderHistory(); if (document.getElementById('semana').classList.contains('active')) await loadWeekSummary(); toast('Monto actualizado') }
+      catch (err) { console.error(err); toast('No se pudo actualizar el monto', true) }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('todayLabel').textContent = new Intl.DateTimeFormat('es-MX', { dateStyle: 'long' }).format(new Date());
+      document.getElementById('fecha').addEventListener('change', saveLocalDay);
+      document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') login() });
+      buildWeek();
+    });
+  </script>
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, addDoc, doc, getDoc, setDoc, updateDoc, deleteDoc, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+    const firebaseConfigs = {
+      dentaloffice: {
+        apiKey: "AIzaSyAWTRlonZSxBG22he5T8MeADbJQfkjZPWM",
+        authDomain: "dentaloffice-pv.firebaseapp.com",
+        projectId: "dentaloffice-pv",
+        storageBucket: "dentaloffice-pv.firebasestorage.app",
+        messagingSenderId: "400766573971",
+        appId: "1:400766573971:web:9d1897f6cb12ad4e96dc66",
+        measurementId: "G-H5FZCEVD5D"
+      },
+      elite: {
+        apiKey: "AIzaSyBsYJ-FBEcSwCsl4woajsg5NymeIsuH6Jg",
+        authDomain: "elitedental-pv.firebaseapp.com",
+        projectId: "elitedental-pv",
+        storageBucket: "elitedental-pv.firebasestorage.app",
+        messagingSenderId: "697529441478",
+        appId: "1:697529441478:web:1d57c5e647f1f49c6b0bc7",
+        measurementId: "G-YKLZ6WJPHX"
+      }
+    };
+
+    const services = {};
+    for (const [id, config] of Object.entries(firebaseConfigs)) {
+      const app = initializeApp(config, `consultorio-${id}`);
+      services[id] = { auth: getAuth(app), db: getFirestore(app) };
+    }
+
+    let activeClinicId = null;
+    let auth = null;
+    let db = null;
+
+    function setClinic(id) {
+      const service = services[id];
+      if (!service) throw new Error('Consultorio no configurado');
+      activeClinicId = id;
+      auth = service.auth;
+      db = service.db;
+    }
+
+    function clearClinic() {
+      activeClinicId = null;
+      auth = null;
+      db = null;
+    }
+
+    function requireClinic() {
+      if (!activeClinicId || !auth || !db) throw new Error('Selecciona un consultorio primero');
+    }
+
+    const normalizeName = name => String(name || '').trim().toLocaleLowerCase('es-MX').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const dateToInput = value => {
+      try {
+        const d = value?.toDate ? value.toDate() : new Date(value);
+        if (Number.isNaN(d.getTime())) return '';
+        const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+      } catch { return '' }
+    };
+
+    async function loadHistory() {
+      requireClinic();
+      const result = [];
+      const patientSnap = await getDocs(collection(db, 'pacientes'));
+      await Promise.all(patientSnap.docs.map(async patientDoc => {
+        const patient = patientDoc.data();
+        const visits = await getDocs(collection(db, 'pacientes', patientDoc.id, 'visitas'));
+        visits.forEach(visitDoc => {
+          const v = visitDoc.data();
+          result.push({
+            id: `${patientDoc.id}/${visitDoc.id}`,
+            pacienteID: patientDoc.id,
+            nombre: patient.nombre || 'Sin nombre',
+            fecha: dateToInput(v.fecha),
+            monto: Number(v.monto) || 0,
+            metodo: v.metodo_pago || '',
+            conceptos: v.motivo || ''
+          });
+        });
+      }));
+      return result;
+    }
+
+    async function saveRecords(date, records) {
+      requireClinic();
+      const patientSnap = await getDocs(collection(db, 'pacientes'));
+      const patients = new Map();
+      patientSnap.docs.forEach(d => {
+        const data = d.data();
+        patients.set(normalizeName(data.nombre), { id: d.id, nombre: data.nombre });
+      });
+
+      const visitDate = Timestamp.fromDate(new Date(`${date}T12:00:00`));
+      for (const record of records) {
+        const key = normalizeName(record.name);
+        let patient = patients.get(key);
+        if (!patient) {
+          const ref = await addDoc(collection(db, 'pacientes'), { nombre: record.name });
+          patient = { id: ref.id, nombre: record.name };
+          patients.set(key, patient);
+        }
+        await addDoc(collection(db, 'pacientes', patient.id, 'visitas'), {
+          fecha: visitDate,
+          motivo: record.concepts,
+          monto: Math.round(Number(record.amount) || 0),
+          metodo_pago: record.method
+        });
+      }
+    }
+
+    async function totalsForDate(date) {
+      requireClinic();
+      let total = 0, cashGross = 0, electronic = 0;
+      const patientSnap = await getDocs(collection(db, 'pacientes'));
+      await Promise.all(patientSnap.docs.map(async patientDoc => {
+        const visits = await getDocs(collection(db, 'pacientes', patientDoc.id, 'visitas'));
+        visits.forEach(visitDoc => {
+          const v = visitDoc.data();
+          if (dateToInput(v.fecha) !== date) return;
+          const amount = Number(v.monto) || 0;
+          total += amount;
+          if (v.metodo_pago === 'Efectivo') cashGross += amount; else electronic += amount;
+        });
+      }));
+      return { total, cashGross, electronic };
+    }
+
+    async function saveDailyClosure(date, expenses = 0) {
+      requireClinic();
+      const totals = await totalsForDate(date), gastos = Math.max(0, Number(expenses) || 0);
+      const data = {
+        fecha: date,
+        ganancias_totales: Math.round(totals.total),
+        efectivo_total: Math.round(totals.cashGross - gastos),
+        tarjeta_transferencia: Math.round(totals.electronic),
+        gastos: Math.round(gastos),
+        actualizado_en: serverTimestamp()
+      };
+      await setDoc(doc(db, 'cierres_diarios', date), data, { merge: true });
+      return data;
+    }
+
+    async function recalculateClosure(date) {
+      requireClinic();
+      const ref = doc(db, 'cierres_diarios', date), snap = await getDoc(ref);
+      const gastos = snap.exists() ? Number(snap.data().gastos) || 0 : 0;
+      return saveDailyClosure(date, gastos);
+    }
+
+    async function loadWeek(dates) {
+      requireClinic();
+      const result = {};
+      await Promise.all(dates.map(async date => {
+        const snap = await getDoc(doc(db, 'cierres_diarios', date));
+        if (snap.exists()) result[date] = snap.data();
+      }));
+      return result;
+    }
+
+    async function updateVisit(compositeId, changes) {
+      requireClinic();
+      const [patientId, visitId] = String(compositeId).split('/');
+      if (!patientId || !visitId) throw new Error('ID de visita inválido');
+      await updateDoc(doc(db, 'pacientes', patientId, 'visitas', visitId), changes);
+    }
+
+    async function deleteVisit(compositeId) {
+      requireClinic();
+      const [patientId, visitId] = String(compositeId).split('/');
+      if (!patientId || !visitId) throw new Error('ID de visita inválido');
+      await deleteDoc(doc(db, 'pacientes', patientId, 'visitas', visitId));
+    }
+
+    window.firebaseBridge = {
+      setClinic,
+      clearClinic,
+      login: async (email, password) => {
+        requireClinic();
+        return (await signInWithEmailAndPassword(auth, email, password)).user;
+      },
+      logout: async () => {
+        requireClinic();
+        return signOut(auth);
+      },
+      loadHistory,
+      saveRecords,
+      saveDailyClosure,
+      recalculateClosure,
+      loadWeek,
+      updateVisit,
+      deleteVisit
+    };
+  </script>
+
+</body>
+
+</html>
